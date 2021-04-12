@@ -2,8 +2,6 @@ const getYieldForPlant = (plant, enviromentFactors) => {
     let sunPercentage = 100; 
     let windPercentage = 100;
     let soilPercentage = 100;
-    
-    //if (enviromentFactors.)
 
     if (enviromentFactors.sun == "low") {
         sunPercentage += plant.factors.sun.low;
