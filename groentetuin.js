@@ -1,61 +1,84 @@
-const getYieldForPlant = (corn, enviromentFactors) => {
+const getYieldForPlant = (plant, enviromentFactors) => {
+    let sunPercentage = 100; 
+    let windPercentage = 100;
+    let soilPercentage = 100;
+    
+    //if (enviromentFactors.)
+
     if (enviromentFactors.sun == "low") {
-        const lowFactor = (corn.yield / 100) * 50;
-        return lowFactor;
+        sunPercentage += plant.factors.sun.low;
     } else if (enviromentFactors.sun == "medium"){
-        const mediumFactor = (corn.yield / 100) * 100;
-        return mediumFactor;
+        sunPercentage += plant.factors.sun.medium;
     } else if (enviromentFactors.sun == "high") {
-        const highFactor = (corn.yield / 100) * 150;
-        return highFactor;
+        sunPercentage += plant.factors.sun.high;
     }
+    sunPercentage = sunPercentage / 100;
+
+    if (enviromentFactors.wind == "low") {
+        windPercentage += plant.factors.wind.low;
+    } else if (enviromentFactors.wind == "medium") {
+        windPercentage += plant.factors.wind.medium;
+    } else if (enviromentFactors.wind == "high") {
+        windPercentage += plant.factors.wind.high;
+    }
+
+    windPercentage = windPercentage / 100;
+
+    if (enviromentFactors.soil == "clay"){
+        soilPercentage += plant.factors.soil.clay;
+    } else if (enviromentFactors.soil == "sand") {
+        soilPercentage += plant.factors.soil.sand;
+    }
+
+    soilPercentage = soilPercentage / 100;
+
+    return plant.yield * sunPercentage * windPercentage * soilPercentage;
 };
 
 
-// const getYieldForCrop = (input) => { 
-//     return input.numCrops * getYieldForPlant(input.crop);
-// };
+const getYieldForCrop = (input, factors) => { 
+    return input.numCrops * getYieldForPlant(input.crop, factors);
+};
 
 
-// const getTotalYield = (crops) => { 
-//     let sum = 0;
-//     crops.crops.forEach(element => {
-//         sum = sum + getYieldForCrop(element);
-//     });
-//     return sum;
-// };
+const getTotalYield = (crops, factors) => { 
+    let sum = 0;
+    crops.crops.forEach(element => {
+        sum = sum + getYieldForCrop(element, factors);
+    });
+    return sum;
+};
 
 
-// const getCostsForCrop = (crop) => {
-//     return crop.numCrops * crop.cost;
-// };
+const getCostsForCrop = (crop) => {
+    return crop.numCrops * crop.cost;
+};
 
 
-// const getRevenueForCrop = (crop) => { 
-//     return crop.salesPrice * getYieldForCrop(crop); 
-// };
+const getRevenueForCrop = (crop, factors) => { 
+    return crop.salesPrice * getYieldForCrop(crop, factors); 
+};
 
 
-// const getProfitForCrop = (crop) => {
-//    return getRevenueForCrop(crop) - getCostsForCrop(crop);
-// };
+const getProfitForCrop = (crop,factors) => {
+   return getRevenueForCrop(crop, factors) - getCostsForCrop(crop);
+};
 
 
-// const getTotalProfit = (crops) => { 
-//     let sum = 0;
-//     crops.crops.forEach(element => {
-//         console.log(getProfitForCrop(element));
-//         sum = sum + getProfitForCrop(element);
-//     });
-//     return sum;
-// };
+const getTotalProfit = (crops, factors) => { 
+    let sum = 0;
+    crops.crops.forEach(element => {
+        sum = sum + getProfitForCrop(element, factors);
+    });
+    return sum;
+};
 
 module.exports = {
     getYieldForPlant, 
-    // getYieldForCrop, 
-    // getTotalYield,
-    // getCostsForCrop,
-    // getRevenueForCrop,
-    // getProfitForCrop,
-    // getTotalProfit
+    getYieldForCrop, 
+    getTotalYield,
+    getCostsForCrop,
+    getRevenueForCrop,
+    getProfitForCrop,
+    getTotalProfit
 };
