@@ -1,11 +1,11 @@
-const { expect } = require("@jest/globals");
 const { 
     getYieldForPlant, 
     getYieldForCrop, 
     getTotalYield, 
     getCostsForCrop,
     getRevenueForCrop,
-    getProfitForCrop
+    getProfitForCrop,
+    getTotalProfit
 } = require("../groentetuin");
 
 
@@ -34,6 +34,7 @@ describe("getYieldForCrop", () => {
     });
 });
 
+
 describe("getTotalYield", () => {
     test("Calculate total yield with multiple crops", () => {
         const corn = {
@@ -61,6 +62,7 @@ describe("getTotalYield", () => {
     });
 });
 
+
 describe ("getCostsForCrop", () => {
     test ("Calculate costs for 1 crop", () => {
          const corn = {
@@ -72,6 +74,7 @@ describe ("getCostsForCrop", () => {
     });
 });
 
+
 describe ("getRevenueForCrop", () => {
     test ("calculate Revenue for 1 crop", () => {
         const corn = {
@@ -80,8 +83,9 @@ describe ("getRevenueForCrop", () => {
         };
         const crop = {crop: corn, numCrops: 5, salesPrice: 2};
     expect(getRevenueForCrop(crop)).toBe(30);
-    });
+    }); 
 });
+
 
 describe ("getProfitForCrop", () => { 
     test("calculate profit for each crop", () => {
@@ -90,6 +94,24 @@ describe ("getProfitForCrop", () => {
             yield: 3,
         };
         const crop = {crop: corn, numCrops: 5, cost: 1, salesPrice: 2};
-        expect(getProfitForCrop(crop)).toBe(25)
+        expect(getProfitForCrop(crop)).toBe(25);
+    });
+});
+
+describe ("getTotalProfit", () => {
+    test ("calculate total profit", () => {
+         const corn = {
+            name: "corn",
+            yield: 3,
+        };
+        const pumpkin = {
+            name: "pumpkin",
+            yield: 4,
+        };
+        const crops = [
+            {crop: corn, numCrops: 5, cost: 1, salesPrice: 2},
+            {crop: pumpkin, numCrops: 2, cost: 1, salesPrice: 2}
+        ];
+        expect(getTotalProfit({crops})).toBe(39);
     });
 });
